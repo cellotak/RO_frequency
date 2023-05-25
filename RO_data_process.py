@@ -11,7 +11,7 @@ filesname = glob.glob("rawdata/*")
 if os.path.exists('processed_data.csv'):
     os.remove('processed_data.csv')
 
-#ファイルパスの.csvの直前数字の大きさで順番を並び替える
+#ファイルパスの拡張子の直前数字の大きさで順番を並び替える
 sorted_filesname=sorted(filesname, key=lambda s: int(re.search(r'(\d+)\.', s).groups()[0]))
 
 #1ファイルごとに各ROの平均値を求めて出力ファイルに書き込む
