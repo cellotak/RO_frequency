@@ -4,20 +4,17 @@ import glob
 import os
 import re
 
-#rowdataフォルダ内のデータのファイルパスをすべて取り込む
+#rawdataフォルダ内のデータのファイルパスをすべて取り込む
 filesname = glob.glob("rawdata/*")
 
 #既に処理済みデータがある場合は上書き
 if os.path.exists('processed_data.csv'):
     os.remove('processed_data.csv')
 
-#ファイルパスの拡張子の直前数字の大きさで順番を並び替える
-sorted_filesname=sorted(filesname, key=lambda s: int(re.search(r'(\d+)\.', s).groups()[0]))
-
 #1ファイルごとに各ROの平均値を求めて出力ファイルに書き込む
-for current_file in sorted_filesname:
+for file in filesname:
 
-    lines = [line.rstrip() for line in open(current_file)] 
+    lines = [line.rstrip() for line in open(file)] 
 
     ro_frequencies=[[],[],[],[],[]]
     all_ro = []
@@ -40,7 +37,7 @@ for current_file in sorted_filesname:
     for ro_frequency in ro_frequencies:
         average = sum(ro_frequency)/len(ro_frequency)
         all_ro.append(average)
-
+    
     with open('processed_data.csv','a',newline='') as f:
         writer = csv.writer(f)
         writer.writerow(all_ro)
